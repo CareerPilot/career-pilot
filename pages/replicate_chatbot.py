@@ -7,9 +7,6 @@ from langchain.globals import set_verbose
 def replicate_chatbot_page():
     set_verbose(True)
 
-    # Initialize API token and model
-    REPLICATE_API_TOKEN = st.secrets["REPLICATE_API_TOKEN"]
-
     # Setup model and conversation chain
     replicate_llm = Replicate(
         model="meta/meta-llama-3-8b-instruct",
