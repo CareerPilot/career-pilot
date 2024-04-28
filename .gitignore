@@ -1,1 +1,5 @@
+*.sw[op]
 .streamlit/secrets.toml
+.venv/
+.vs/
+venv/
