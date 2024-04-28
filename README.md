@@ -4,7 +4,7 @@ Install Docker from [Docker's official website](https://www.docker.com/products/
 
 #### Set Up Secrets
 
-Create a `secrets.toml` file inside the `.streamlit` folder at the root of your project directory and add your Replicate API token inside of it:
+Create a `secrets.toml` file inside a `.streamlit` folder at the root of your project directory and add your Replicate API token inside of it, like so:
 
 ```
 REPLICATE_API_TOKEN="your_token_here"
