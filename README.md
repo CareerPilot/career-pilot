@@ -10,7 +10,15 @@ Create a `secrets.toml` file inside a `.streamlit` folder at the root of your pr
 REPLICATE_API_TOKEN="your_token_here"
 ```
 
-#### Build and Run the Docker Container
+#### Run application
+
+Execute the following command in the terminal within the project directory:
+
+```bash
+streamlit run Home.py --server.port=8501 --server.address=0.0.0.0
+```
+
+#### Build and Run Application in Docker
 
 Execute the following command in the terminal within the project directory:
 
@@ -18,6 +26,6 @@ Execute the following command in the terminal within the project directory:
 docker build --no-cache -t my-streamlit-app . && docker run -p 8501:8501 my-streamlit-app
 ```
 
-### Access the Application
+#### Access the Application
 
 Visit http://localhost:8501 in your browser to interact with the Streamlit application.
