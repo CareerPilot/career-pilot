@@ -10,14 +10,14 @@ REPLICATE_API_TOKEN="your_token_here"
 
 ### Run application locally without Docker
 
-1. Install Python 3.9 or newer from the [Python's official website](https://www.python.org/downloads/).
-1. Create a Python virtual environment with `python -m venv .venv` (`python -m venv venv` on Windows).
-1. Run `. .venv/bin/activate` (`venv\Scripts\activate` on Windows).
-1. Install the required Python dependencies using:
+1. Install Python 3.9 or newer from [Python's official website](https://www.python.org/downloads/).
+2. Create a Python virtual environment with `python -m venv .venv` (`python -m venv venv` on Windows).
+3. Run `. .venv/bin/activate` (`venv\Scripts\activate` on Windows).
+4. Install the required Python dependencies using:
    ```bash
    pip install -r requirements.txt
    ```
-1. To start the app, run the following command from the project root:
+5. To start the app, run the following command from the project root:
    ```bash
    streamlit run Home.py --server.port=8501 --server.address=0.0.0.0
    ```
