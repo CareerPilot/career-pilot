@@ -23,7 +23,7 @@ def replicate_chatbot_page():
     )
 
     st.title("Replicate Chatbot")
-    if 'resume_text' not in st.session_state and 'job_description_text' not in st.session_state:
+    if 'resume_text' not in st.session_state or 'job_description_text' not in st.session_state:
         st.warning("Please upload both your Resume and Job Description for better quality responses.")
 
     prompt = st.text_area("Enter your prompt:")
