@@ -17,13 +17,14 @@ with col2:
 
 # Button to generate the coaching report
 if st.button("Generate Coaching Report"):
+    # Here you would include the logic to process the resume and job description
+    # and generate the coaching report.
+    # For example, you could display the result like this:
+    # report = generate_coaching_report(resume_text, job_description_text)
+    # st.write(report)
     if resume_text and job_description_text:
-        # Placeholder for processing logic
         st.success("The coaching report has been generated! (Placeholder)")
-        # Here you would include the logic to process the resume and job description
-        # and generate the coaching report.
-        # For example, you could display the result like this:
-        # report = generate_coaching_report(resume_text, job_description_text)
-        # st.write(report)
+        st.session_state.resume_text = resume_text
+        st.session_state.job_description_text = job_description_text
     else:
         st.error("Please paste both your resume and the job description to generate the coaching report.")
