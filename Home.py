@@ -8,14 +8,16 @@ st.caption("Where your career takes flight")
 # Create two containers for the text areas and file uploader
 with st.container():
     st.markdown("<h3>1. Paste or Upload Resume</h3>", unsafe_allow_html=True)
-    resume_text = st.text_area("Paste resume:", height=100)
+    resume_text = st.text_area("Paste resume:")
     pdf_file = st.file_uploader("Upload resume as PDF:", type="pdf")  # No width specified
 
 st.markdown("---")  # Adds a horizontal line for better separation
 
 with st.container():
     st.markdown("<h3>2. Paste Job Description</h3>", unsafe_allow_html=True)
-    job_description_text = st.text_area("Paste job description:", height=100)
+    job_description_text = st.text_area("Paste job description:")
+
+st.markdown("---")  # Adds a horizontal line for better separation
 
 # Button to generate the coaching report
 st.markdown("<h3>3. Get Coaching Report</h3>", unsafe_allow_html=True)
