@@ -2,4 +2,5 @@
 .streamlit/secrets.toml
 .venv/
 .vs/
+__pycache__/
 venv/
