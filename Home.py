@@ -1,5 +1,6 @@
 import streamlit as st
-from helpers import pdf_to_text
+from helpers import doc_to_text, pdf_to_text
+from io import StringIO
 
 # Main title
 st.title("CareerPilot")
@@ -9,7 +10,7 @@ st.caption("Where your career takes flight")
 with st.container():
     st.markdown("<h3>1. Paste or Upload Resume</h3>", unsafe_allow_html=True)
     resume_text = st.text_area("Paste resume:")
-    pdf_file = st.file_uploader("Upload resume as PDF:", type="pdf")  # No width specified
+    uploaded_file = st.file_uploader("Upload resume as DOC, DOCX, PDF, or TXT:", type=["doc", "docx", "pdf", "txt"])  # No width specified
 
 st.markdown("---")  # Adds a horizontal line for better separation
 
@@ -22,13 +23,19 @@ st.markdown("---")  # Adds a horizontal line for better separation
 # Button to generate the coaching report
 st.markdown("<h3>3. Get Coaching Report</h3>", unsafe_allow_html=True)
 
-if (resume_text or pdf_file) and job_description_text:
+if (resume_text or uploaded_file) and job_description_text:
     if st.button("Generate Coaching Report"):
         # Set session state only when the button is clicked
         if resume_text:
             st.session_state.resume_text = resume_text
-        elif pdf_file is not None:
-            st.session_state.resume_text = pdf_to_text(pdf_file)
+        elif uploaded_file is not None:
+            name = uploaded_file.name.lower()
+            if name.endswith('pdf'):
+                st.session_state.resume_text = pdf_to_text(uploaded_file)
+            elif name.endswith('doc') or name.endswith('docx'):
+                st.session_state.resume_text = doc_to_text(uploaded_file)
+            else:
+                st.session_state.resume_text = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
 
         st.session_state.job_description_text = job_description_text
 
