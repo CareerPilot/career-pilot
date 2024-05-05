@@ -3,7 +3,7 @@ st.title("CareerPilot")
 st.caption("Where your career takes flight")
 st.divider()
 st.markdown("<h3>Coaching Report</h3>", unsafe_allow_html=True)
-st.caption("Get insights to better tailor your resume to the job description")
+st.caption("Get insights on how well your resume matches the job description")
 
 # Display an error if there is one
 if 'error' in st.session_state:

@@ -7,7 +7,7 @@ st.title("CareerPilot")
 st.caption("Where your career takes flight")
 st.divider()
 st.markdown("<h3>AI Resume Coach</h3>", unsafe_allow_html=True)
-st.caption("Have a conversation to get more advice about your resume")
+st.caption("Ask away! Our AI coach is here to help tailor your resume for the job" )
 
 # Display an error if there is one
 if 'error' in st.session_state:
@@ -39,7 +39,7 @@ else:
             st.markdown(message["content"])
 
     # Input field for user's prompt
-    prompt = st.chat_input("How can I better tailor my resume for the job?")
+    prompt = st.chat_input("Am I a well-qualified candidate for this job?")
     if prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
         try:
