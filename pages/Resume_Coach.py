@@ -1,6 +1,4 @@
 import streamlit as st
-from helpers import doc_to_text, pdf_to_text
-from io import StringIO
 from langchain_community.llms import Replicate
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
@@ -14,8 +12,10 @@ st.caption("Have a conversation to get more advice about your resume")
 # Display an error if there is one
 if 'error' in st.session_state:
     st.error(st.session_state['error'])
-elif 'processed_resume' not in st.session_state or 'job_description_text' not in st.session_state or not st.session_state.get('processed_resume') or not st.session_state.get('job_description_text'):
-    st.warning("Submit both a resume and job description in the first tab to access the AI Resume Coach.")
+if not st.session_state.get('resume_text') or not st.session_state.get('job_description_text'):
+    st.warning("Input resume and job description on the home page access the AI Resume Coach.")
+    if st.button("Go Home", type="primary"):
+      st.switch_page("Home.py")
 else:
     # Initialize the conversation chain and memory if not already done
     if 'conversation_chain' not in st.session_state:
