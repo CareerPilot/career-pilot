@@ -6,35 +6,29 @@ from io import StringIO
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
 st.divider()
-# Create two containers for the text areas and file uploader
+
+# Container for resume input
 with st.container():
     st.markdown("<h3>1. Paste or Upload Resume</h3>", unsafe_allow_html=True)
-    resume_text = st.text_area("Paste resume:", value=str(st.session_state.get("resume_text", "")))
-    uploaded_file = st.file_uploader("Upload resume as DOC, DOCX, PDF, or TXT:", type=["doc", "docx", "pdf", "txt"])  # No width specified
+    resume_text = st.text_area("Resume:", value=str(st.session_state.get("resume_text", "")))
+    uploaded_file = st.file_uploader("Upload DOC, DOCX, PDF, or TXT", type=["doc", "docx", "pdf", "txt"])
 
-    # Placeholder for info message
+    # Display a message if both resume text and uploaded file are provided
     resume_info_placeholder = st.empty()
-
-    # Determine the source of the resume
-    resume_source = None
-    if resume_text.strip():
-        resume_source = "pasted"
-    if uploaded_file:
-        resume_source = "uploaded"
-
-    # Display the source of the resume
-    if resume_source:
-        resume_info_placeholder.info(f"Using {resume_source} resume.")
+    if resume_text.strip() and uploaded_file:
+        resume_info_placeholder.info("Using the uploaded file.")
 
 st.divider()
 
+# Container for job description input
 with st.container():
     st.markdown("<h3>2. Paste Job Description</h3>", unsafe_allow_html=True)
-    job_description_text = st.text_area("Paste job description:", value=str(st.session_state.get("job_description_text", "")))
+    job_description_text = st.text_area("Job Description:", value=str(st.session_state.get("job_description_text", "")))
 
+# Check if both resume and job description are provided
 if (resume_text.strip() or uploaded_file) and job_description_text.strip():
     if st.button("Submit", type="primary"):
-        # Set session state only when the button is clicked
+        # Set session state when the button is clicked
         if uploaded_file is not None:
             try:
                 name = uploaded_file.name.lower()
@@ -55,8 +49,15 @@ if (resume_text.strip() or uploaded_file) and job_description_text.strip():
         st.switch_page("pages/Coaching_Report.py")
 else:
     if not (resume_text.strip() or uploaded_file) and not job_description_text.strip():
-        st.warning("Input resume and job description to generate the coaching report.")
+        st.warning("Input resume and job description.")
     elif not (resume_text.strip() or uploaded_file):
-        st.warning("Input resume to generate the coaching report.")
+        st.warning("Input resume.")
     elif not job_description_text.strip():
-        st.warning("Input job description to generate the coaching report.")
+        st.warning("Input job description.")
+
+# Button to clear all inputs
+if st.session_state.get("resume_text") or st.session_state.get("job_description"):
+    if st.button("Clear all"):
+        st.session_state.resume_text = ""
+        st.session_state.job_description_text = ""
+        st.rerun()
