@@ -2,71 +2,78 @@ import streamlit as st
 from helpers import doc_to_text, pdf_to_text
 from io import StringIO
 
-# Main title
+# Set the page title and subtitle
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
 
-# Create two containers for the text areas and file uploader
-with st.container():
-    st.markdown("<h3>1. Paste or Upload Resume</h3>", unsafe_allow_html=True)
-    resume_text = st.text_area("Paste resume:")
-    uploaded_file = st.file_uploader("Upload resume as DOCX, PDF, or TXT:", type=["docx", "pdf", "txt"])  # No width specified
-
-    # Placeholder for info message
-    resume_info_placeholder = st.empty()
-
-    # Determine the source of the resume
-    resume_source = None
-    if resume_text.strip():
-        resume_source = "pasted"
-    if uploaded_file:
-        resume_source = "uploaded"
-
-    # Display the source of the resume
-    if resume_source:
-        resume_info_placeholder.info(f"Using {resume_source} resume.")
-
-st.markdown("---")  # Adds a horizontal line for better separation
-
-with st.container():
-    st.markdown("<h3>2. Paste Job Description</h3>", unsafe_allow_html=True)
-    job_description_text = st.text_area("Paste job description:")
-
-st.markdown("---")  # Adds a horizontal line for better separation
-
-# Button to generate the coaching report
-st.markdown("<h3>3. Get Coaching Report</h3>", unsafe_allow_html=True)
-
-if (resume_text.strip() or uploaded_file) and job_description_text.strip():
-    if st.button("Generate Coaching Report"):
-        # Set session state only when the button is clicked
+# Function to handle document processing
+def process_documents(uploaded_file, resume_text):
+    try:
         if uploaded_file is not None:
-            try:
-                name = uploaded_file.name.lower()
-                if name.endswith('pdf'):
-                    st.session_state.resume_text = pdf_to_text(uploaded_file)
-                elif name.endswith('docx'):
-                    st.session_state.resume_text = doc_to_text(uploaded_file)
-                else:
-                    st.session_state.resume_text = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
-            except Exception as e:
-                st.error("Error parsing the uploaded file. Try a different format.")
-                st.stop()
-        elif resume_text.strip():
-            st.session_state.resume_text = resume_text.strip()
+            name = uploaded_file.name.lower()
+            if name.endswith('pdf'):
+                return pdf_to_text(uploaded_file)
+            elif name.endswith('docx'):
+                return doc_to_text(uploaded_file)
+            else:
+                return StringIO(uploaded_file.getvalue().decode("utf-8")).read()
+        else:
+            return resume_text.strip()
+    except Exception as e:
+        st.session_state['error'] = "Error parsing the uploaded file. Try a different format."
+        return None
 
-        st.session_state.job_description_text = job_description_text.strip()
+# Function to clear error when file is removed
+def handle_file_uploader_change():
+    if 'uploaded_file' in st.session_state and not st.session_state['uploaded_file']:
+        st.session_state.pop('error', None)
 
-        # Here you would include the logic to process the resume and job description
-        # and generate the coaching report.
-        # For example, you could display the result like this:
-        # report = generate_coaching_report(st.session_state.resume_text, st.session_state.job_description_text)
-        # st.write(report)
+# Create the tab structure
+tab1, tab2 = st.tabs(["Upload Resume & Job Description", "Coaching Report"])
+
+# Tab 1: Upload Resume & Job Description
+with tab1:
+    with st.container():
+        st.markdown("<h3>1. Paste or Upload Resume</h3>", unsafe_allow_html=True)
+        resume_text = st.text_area("Paste resume:")
+        uploaded_file = st.file_uploader("Upload resume as DOCX, PDF, or TXT:",
+                                         type=["docx", "pdf", "txt"],
+                                         on_change=handle_file_uploader_change,
+                                         key='uploaded_file')
+
+    with st.container():
+        st.markdown("<h3>2. Paste Job Description</h3>", unsafe_allow_html=True)
+        job_description_text = st.text_area("Paste job description:")
+
+    # Attempt to process documents
+    if resume_text or uploaded_file:
+        processed_resume = process_documents(uploaded_file, resume_text)
+        if processed_resume:
+            st.session_state['processed_resume'] = processed_resume
+            if 'error' in st.session_state:
+                del st.session_state['error']
+            if job_description_text:
+                st.session_state['job_description_text'] = job_description_text.strip()
+                st.success("Please go to the 'Coaching Report' tab see your report.")
+        else:
+            st.session_state.pop('processed_resume', None)
+    else:
+        st.session_state.pop('processed_resume', None)
+    if job_description_text:
+        st.session_state['job_description_text'] = job_description_text.strip()
+    else:
+        st.session_state.pop('job_description_text', None)
+
+
+# Tab 2: Coaching Report
+with tab2:
+    st.markdown("<h3>Coaching Report</h3>", unsafe_allow_html=True)
+    st.caption("Analysis & actionable feedback on tailoring your resume for the job")
+    if 'error' in st.session_state:
+        st.error(st.session_state['error'])
+    elif 'processed_resume' not in st.session_state or 'job_description_text' not in st.session_state or not st.session_state.get('processed_resume') or not st.session_state.get('job_description_text'):
+        st.warning("Submit resume and job description in the previous tab to generate the coaching report.")
+    else:
         st.success("The coaching report has been generated! (Placeholder)")
-else:
-    if not (resume_text.strip() or uploaded_file) and not job_description_text.strip():
-        st.warning("Submit resume and job description to generate the coaching report.")
-    elif not (resume_text.strip() or uploaded_file):
-        st.warning("Submit resume to generate the coaching report.")
-    elif not job_description_text.strip():
-        st.warning("Submit job description to generate the coaching report.")
+        if st.button("Talk to Resume Coach"):
+            st.switch_page("pages/Replicate_Chatbot.py")
