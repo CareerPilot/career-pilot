@@ -10,7 +10,7 @@ st.caption("Where your career takes flight")
 with st.container():
     st.markdown("<h3>1. Paste or Upload Resume</h3>", unsafe_allow_html=True)
     resume_text = st.text_area("Paste resume:")
-    uploaded_file = st.file_uploader("Upload resume as DOC, DOCX, PDF, or TXT:", type=["doc", "docx", "pdf", "txt"])  # No width specified
+    uploaded_file = st.file_uploader("Upload resume as DOCX, PDF, or TXT:", type=["docx", "pdf", "txt"])  # No width specified
 
 st.markdown("---")  # Adds a horizontal line for better separation
 
@@ -32,7 +32,7 @@ if (resume_text or uploaded_file) and job_description_text:
             name = uploaded_file.name.lower()
             if name.endswith('pdf'):
                 st.session_state.resume_text = pdf_to_text(uploaded_file)
-            elif name.endswith('doc') or name.endswith('docx'):
+            elif name.endswith('docx'):
                 st.session_state.resume_text = doc_to_text(uploaded_file)
             else:
                 st.session_state.resume_text = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
