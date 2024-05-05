@@ -52,16 +52,17 @@ with tab1:
             st.session_state['processed_resume'] = processed_resume
             if 'error' in st.session_state:
                 del st.session_state['error']
+            if job_description_text:
+                st.session_state['job_description_text'] = job_description_text.strip()
+                st.success("Please go to the 'Coaching Report' tab see your report.")
         else:
             st.session_state.pop('processed_resume', None)
     else:
         st.session_state.pop('processed_resume', None)
-
     if job_description_text:
         st.session_state['job_description_text'] = job_description_text.strip()
     else:
         st.session_state.pop('job_description_text', None)
-
 
 
 # Tab 2: Coaching Report
@@ -71,8 +72,8 @@ with tab2:
     if 'error' in st.session_state:
         st.error(st.session_state['error'])
     elif 'processed_resume' not in st.session_state or 'job_description_text' not in st.session_state or not st.session_state.get('processed_resume') or not st.session_state.get('job_description_text'):
-        st.warning("Submit both a resume and job description in the previous tab to generate the coaching report.")
+        st.warning("Submit resume and job description in the previous tab to generate the coaching report.")
     else:
-
         st.success("The coaching report has been generated! (Placeholder)")
-
+        if st.button("Talk to Resume Coach"):
+            st.switch_page("pages/Replicate_Chatbot.py")
