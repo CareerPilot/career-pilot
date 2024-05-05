@@ -13,7 +13,7 @@ st.caption("Have a conversation to get more advice about your resume")
 if 'error' in st.session_state:
     st.error(st.session_state['error'])
 if not st.session_state.get('resume_text') or not st.session_state.get('job_description_text'):
-    st.warning("Input resume and job description on the home page access the AI Resume Coach.")
+    st.warning("Submit resume and job description on home page to access AI Resume Coach.")
     if st.button("Go Home", type="primary"):
       st.switch_page("Home.py")
 else:
