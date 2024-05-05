@@ -13,7 +13,7 @@ def process_documents(uploaded_file, resume_text):
             name = uploaded_file.name.lower()
             if name.endswith('pdf'):
                 return pdf_to_text(uploaded_file)
-            elif name.endswith('doc') or name.endswith('docx'):
+            elif name.endswith('docx'):
                 return doc_to_text(uploaded_file)
             else:
                 return StringIO(uploaded_file.getvalue().decode("utf-8")).read()
@@ -36,8 +36,8 @@ with tab1:
     with st.container():
         st.markdown("<h3>1. Paste or Upload Resume</h3>", unsafe_allow_html=True)
         resume_text = st.text_area("Paste resume:")
-        uploaded_file = st.file_uploader("Upload resume as DOC, DOCX, PDF, or TXT:",
-                                         type=["doc", "docx", "pdf", "txt"],
+        uploaded_file = st.file_uploader("Upload resume as DOCX, PDF, or TXT:",
+                                         type=["docx", "pdf", "txt"],
                                          on_change=handle_file_uploader_change,
                                          key='uploaded_file')
 
