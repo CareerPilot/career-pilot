@@ -20,4 +20,4 @@ else:
     # st.write(report)
     st.write(f"Here is a placeholder report: {st.session_state.resume_text} {st.session_state.job_description_text} ")
     if st.button("Talk to Resume Coach", type="primary"):
-      st.switch_page("pages/Replicate_Chatbot.py")
+      st.switch_page("pages/Resume_Coach.py")
