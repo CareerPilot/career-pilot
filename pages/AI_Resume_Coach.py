@@ -7,7 +7,7 @@ st.title("CareerPilot")
 st.caption("Where your career takes flight")
 st.divider()
 st.markdown("<h3>AI Resume Coach</h3>", unsafe_allow_html=True)
-st.caption("Ask away! Our AI coach is here to help tailor your resume for the job" )
+st.caption("Ask away! Our AI coach is here to help tailor your resume for the job." )
 
 # Display an error if there is one
 if 'error' in st.session_state:

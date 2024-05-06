@@ -45,7 +45,6 @@ if (resume_text.strip() or uploaded_file) and job_description_text.strip():
             st.session_state.resume_text = resume_text.strip()
 
         st.session_state.job_description_text = job_description_text.strip()
-        st.success("The coaching report has been generated! (Placeholder)")
         st.switch_page("pages/Coaching_Report.py")
 else:
     if not (resume_text.strip() or uploaded_file) and not job_description_text.strip():
