@@ -65,6 +65,5 @@ else:
 # Button to clear all inputs
 if st.session_state.get("resume_text") or st.session_state.get("job_description"):
     if st.button("Clear All"):
-        st.session_state.resume_text = ""
-        st.session_state.job_description_text = ""
+        st.session_state.clear()
         st.rerun()
