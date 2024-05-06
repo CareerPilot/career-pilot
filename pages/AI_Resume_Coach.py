@@ -7,21 +7,25 @@ st.title("CareerPilot")
 st.caption("Where your career takes flight")
 st.divider()
 st.markdown("<h3>AI Resume Coach</h3>", unsafe_allow_html=True)
-st.caption("Ask away! Our AI coach is here to help tailor your resume for the job." )
+st.caption("Ask away! Our AI coach is here to help tailor your resume for the job.")
 
 # Display an error if there is one
-if 'error' in st.session_state:
-    st.error(st.session_state['error'])
-if not st.session_state.get('resume_text') or not st.session_state.get('job_description_text'):
-    st.warning("Submit resume and job description on home page to access AI Resume Coach.")
+if "error" in st.session_state:
+    st.error(st.session_state["error"])
+if not st.session_state.get("resume_text") or not st.session_state.get(
+    "job_description_text"
+):
+    st.warning(
+        "Submit resume and job description on home page to access AI Resume Coach."
+    )
     if st.button("Go Home", type="primary"):
-      st.switch_page("Home.py")
+        st.switch_page("Home.py")
 else:
     # Initialize the conversation chain and memory if not already done
-    if 'conversation_chain' not in st.session_state:
+    if "conversation_chain" not in st.session_state:
         replicate_llm = Replicate(
             model="meta/meta-llama-3-8b-instruct",
-            model_kwargs={"temperature": 0.75, "max_length": 500, "top_p": 1}
+            model_kwargs={"temperature": 0.75, "max_length": 500, "top_p": 1},
         )
         memory = ConversationBufferMemory()
         st.session_state.conversation_chain = ConversationChain(
@@ -30,7 +34,7 @@ else:
         )
 
     # Create a list for storing messages if it doesn't exist
-    if 'messages' not in st.session_state:
+    if "messages" not in st.session_state:
         st.session_state.messages = []
 
     # Display the chat messages
@@ -46,8 +50,12 @@ else:
             # Generate a response from the AI
             response = st.session_state.conversation_chain.invoke(input=prompt)
             # Parse the response to display only the AI's response part
-            ai_response = response.get('response') if isinstance(response, dict) else response
-            st.session_state.messages.append({"role": "assistant", "content": ai_response})
+            ai_response = (
+                response.get("response") if isinstance(response, dict) else response
+            )
+            st.session_state.messages.append(
+                {"role": "assistant", "content": ai_response}
+            )
         except Exception as e:
             # Handle exceptions from the AI model
             response = f"Failed to generate a response: {str(e)}"

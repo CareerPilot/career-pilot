@@ -10,8 +10,12 @@ st.divider()
 # Container for resume input
 with st.container():
     st.markdown("<h3>1. Paste or Upload Resume</h3>", unsafe_allow_html=True)
-    resume_text = st.text_area("Resume:", value=str(st.session_state.get("resume_text", "")))
-    uploaded_file = st.file_uploader("Upload DOC, DOCX, PDF, or TXT", type=["doc", "docx", "pdf", "txt"])
+    resume_text = st.text_area(
+        "Resume:", value=str(st.session_state.get("resume_text", ""))
+    )
+    uploaded_file = st.file_uploader(
+        "Upload DOC, DOCX, PDF, or TXT", type=["doc", "docx", "pdf", "txt"]
+    )
 
     # Display a message if both resume text and uploaded file are provided
     resume_info_placeholder = st.empty()
@@ -23,7 +27,9 @@ st.divider()
 # Container for job description input
 with st.container():
     st.markdown("<h3>2. Paste Job Description</h3>", unsafe_allow_html=True)
-    job_description_text = st.text_area("Job Description:", value=str(st.session_state.get("job_description_text", "")))
+    job_description_text = st.text_area(
+        "Job Description:", value=str(st.session_state.get("job_description_text", ""))
+    )
 
 # Check if both resume and job description are provided
 if (resume_text.strip() or uploaded_file) and job_description_text.strip():
@@ -32,12 +38,14 @@ if (resume_text.strip() or uploaded_file) and job_description_text.strip():
         if uploaded_file is not None:
             try:
                 name = uploaded_file.name.lower()
-                if name.endswith('pdf'):
+                if name.endswith("pdf"):
                     st.session_state.resume_text = pdf_to_text(uploaded_file)
-                elif name.endswith('doc') or name.endswith('docx'):
+                elif name.endswith("doc") or name.endswith("docx"):
                     st.session_state.resume_text = doc_to_text(uploaded_file)
                 else:
-                    st.session_state.resume_text = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
+                    st.session_state.resume_text = StringIO(
+                        uploaded_file.getvalue().decode("utf-8")
+                    ).read()
             except Exception as e:
                 st.error("Error parsing the uploaded file. Try a different format.")
                 st.stop()
