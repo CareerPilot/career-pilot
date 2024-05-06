@@ -37,8 +37,25 @@ else:
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
+    if not st.session_state.get("initial_message_sent", False):
+        # Initial message to provide context to the LLAMA model
+        initial_message = f"""
+        You are an AI Resume Coach that helps job seekers tailor their resumes for specific job descriptions.
+        You are talking to a user with the following resume, job description, AI-generated coaching report:
+        Resume: {st.session_state.resume_text}
+        Job Description: {st.session_state.job_description_text}
+        Coaching Report: {st.session_state.coaching_report}
+        """
+        st.session_state.messages.append({"role": "system", "content": initial_message})
+        st.session_state["initial_message_sent"] = True
+
+        # Save the initial message in memory
+        st.session_state.conversation_chain.invoke(input=initial_message)
+
     # Display the chat messages
     for message in st.session_state.messages:
+        if message["role"] == "system":
+            continue  # Skip displaying the initial prompt
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
