@@ -43,3 +43,6 @@ else:
             st.write(response)  # Display it
         except Exception as e:
             st.error(f"Failed to generate a coaching report: {str(e)}")
+    if st.session_state.get("coaching_report"):
+        if st.button("Chat with AI Resume Coach ", type="primary"):
+            st.switch_page("pages/AI_Resume_Coach.py")

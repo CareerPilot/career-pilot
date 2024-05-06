@@ -33,7 +33,7 @@ with st.container():
 
 # Check if both resume and job description are provided
 if (resume_text.strip() or uploaded_file) and job_description_text.strip():
-    if st.button("Submit", type="primary"):
+    if st.button("View Coaching Report", type="primary"):
         # Set session state when the button is clicked
         if uploaded_file is not None:
             try:
