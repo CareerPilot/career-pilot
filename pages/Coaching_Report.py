@@ -30,15 +30,16 @@ else:
     Here is the resume: {st.session_state.resume_text}.
     And here is the job description: {st.session_state.job_description_text}"""
 
-    st.write(prompt)  # TODO: Remove this after testing
-    # Generate the coaching report
-    try:
-        response = replicate_llm.invoke(
-            prompt
-        )  # Directly call the model with the prompt
-        st.session_state.coaching_report = (
-            response  # Save the response in session state
-        )
-        st.write(response)  # Display it
-    except Exception as e:
-        st.error(f"Failed to generate a coaching report: {str(e)}")
+    if st.session_state.get("coaching_report", ""):
+        st.write(st.session_state.coaching_report)
+    else:
+        try:
+            response = replicate_llm.invoke(
+                prompt
+            )  # Directly call the model with the prompt
+            st.session_state.coaching_report = (
+                response  # Save the response in session state
+            )
+            st.write(response)  # Display it
+        except Exception as e:
+            st.error(f"Failed to generate a coaching report: {str(e)}")
