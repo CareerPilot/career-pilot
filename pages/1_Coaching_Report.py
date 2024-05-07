@@ -1,5 +1,6 @@
 import streamlit as st
-from langchain_community.llms import Replicate
+
+from helpers import get_replicate_llm
 
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
@@ -20,10 +21,7 @@ elif not st.session_state.get("resume_text") or not st.session_state.get(
         st.switch_page("Home.py")
 else:
     # Initialize the LLM
-    replicate_llm = Replicate(
-        model="meta/meta-llama-3-8b-instruct",
-        model_kwargs={"temperature": 0.75, "max_length": 1000, "top_p": 1},
-    )
+    replicate_llm = get_replicate_llm()
 
     prompt = f"""Please analyze the following resume and job description and generate a comprehensive coaching report on how well the resume matches the job description.
     Start by giving a matching score out of 10.

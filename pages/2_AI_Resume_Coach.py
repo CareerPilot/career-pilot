@@ -1,7 +1,6 @@
 import streamlit as st
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
-from langchain_community.llms import Replicate
 
 from helpers import get_replicate_llm
 
