@@ -1,7 +1,7 @@
 import streamlit as st
-from langchain_community.llms import Replicate
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
+from langchain_community.llms import Replicate
 
 st.title("CareerPilot")
 st.caption("Where your career takes flight")

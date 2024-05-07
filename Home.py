@@ -1,6 +1,8 @@
-import streamlit as st
-from helpers import doc_to_text, pdf_to_text
 from io import StringIO
+
+import streamlit as st
+
+from helpers import doc_to_text, pdf_to_text
 
 # Main title
 st.title("CareerPilot")

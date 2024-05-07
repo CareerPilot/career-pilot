@@ -29,7 +29,7 @@ Install Docker from [Docker's official website](https://www.docker.com/products/
 To start the app, run the following command from the project root:
 
 ```bash
-docker build --no-cache -t my-streamlit-app . && docker run -p 8501:8501 my-streamlit-app
+docker build -t app . && docker run -p 8501:8501 app
 ```
 
 ### Access the application

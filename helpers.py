@@ -1,6 +1,7 @@
-from pypdf import PdfReader
-import docx
 import itertools as it
+
+import docx
+from pypdf import PdfReader
 
 
 def doc_to_text(doc_file_path: str) -> str:
