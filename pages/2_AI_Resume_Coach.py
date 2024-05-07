@@ -3,6 +3,8 @@ from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
 from langchain_community.llms import Replicate
 
+from helpers import get_replicate_llm
+
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
 st.divider()
@@ -23,10 +25,7 @@ if not st.session_state.get("resume_text") or not st.session_state.get(
 else:
     # Initialize the conversation chain and memory if not already done
     if "conversation_chain" not in st.session_state:
-        replicate_llm = Replicate(
-            model="meta/meta-llama-3-8b-instruct",
-            model_kwargs={"temperature": 0.75, "max_length": 500, "top_p": 1},
-        )
+        replicate_llm = get_replicate_llm()
         memory = ConversationBufferMemory()
         st.session_state.conversation_chain = ConversationChain(
             llm=replicate_llm,

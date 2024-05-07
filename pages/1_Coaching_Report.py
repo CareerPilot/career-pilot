@@ -22,7 +22,7 @@ else:
     # Initialize the LLM
     replicate_llm = Replicate(
         model="meta/meta-llama-3-8b-instruct",
-        model_kwargs={"temperature": 0.75, "max_length": 500, "top_p": 1},
+        model_kwargs={"temperature": 0.75, "max_length": 1000, "top_p": 1},
     )
 
     prompt = f"""Please analyze the following resume and job description and generate a comprehensive coaching report on how well the resume matches the job description.
