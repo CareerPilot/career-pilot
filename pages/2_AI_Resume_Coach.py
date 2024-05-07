@@ -42,9 +42,9 @@ else:
         initial_message = f"""
         You are an AI Resume Coach that helps job seekers tailor their resumes for specific job descriptions.
         You are talking to a user with the following resume, job description, AI-generated coaching report:
-        Resume: {st.session_state.resume_text}
-        Job Description: {st.session_state.job_description_text}
-        Coaching Report: {st.session_state.coaching_report}
+        Resume: {st.session_state.get("resume_text")}
+        Job Description: {st.session_state.get("job_description_text")}
+        Coaching Report: {st.session_state.get("coaching_report")}
         """
         st.session_state.messages.append({"role": "system", "content": initial_message})
         st.session_state["initial_message_sent"] = True

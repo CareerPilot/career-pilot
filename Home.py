@@ -53,7 +53,7 @@ if (resume_text.strip() or uploaded_file) and job_description_text.strip():
             st.session_state.resume_text = resume_text.strip()
 
         st.session_state.job_description_text = job_description_text.strip()
-        st.switch_page("pages/Coaching_Report.py")
+        st.switch_page("pages/1_Coaching_Report.py")
 else:
     if not (resume_text.strip() or uploaded_file) and not job_description_text.strip():
         st.warning("Input resume and job description.")
@@ -62,7 +62,7 @@ else:
     elif not job_description_text.strip():
         st.warning("Input job description.")
 
-# Button to clear all inputs
+# Button to clear session state
 if st.session_state.get("resume_text") or st.session_state.get("job_description"):
     if st.button("Clear All"):
         st.session_state.clear()
