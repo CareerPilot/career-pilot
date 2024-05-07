@@ -33,6 +33,10 @@ else:
     if st.session_state.get("coaching_report", ""):
         st.write(st.session_state.coaching_report)
     else:
+        placeholder = st.empty()  # Create a placeholder for the report
+        placeholder.text(
+            "Generating your coaching report... Please wait."
+        )  # Display temporary text
         try:
             response = replicate_llm.invoke(
                 prompt
@@ -40,9 +44,11 @@ else:
             st.session_state.coaching_report = (
                 response  # Save the response in session state
             )
-            st.write(response)  # Display it
+            placeholder.empty()  # Clear the placeholder
+            st.write(response)  # Display the report
         except Exception as e:
             st.error(f"Failed to generate a coaching report: {str(e)}")
+
     if st.session_state.get("coaching_report"):
-        if st.button("Chat with AI Resume Coach ", type="primary"):
+        if st.button("Chat with AI Resume Coach", type="primary"):
             st.switch_page("pages/2_AI_Resume_Coach.py")

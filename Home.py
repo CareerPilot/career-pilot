@@ -55,6 +55,8 @@ if (resume_text.strip() or uploaded_file) and job_description_text.strip():
             st.session_state.resume_text = resume_text.strip()
 
         st.session_state.job_description_text = job_description_text.strip()
+        if st.session_state.get("coaching_report"):
+            st.session_state.coaching_report = ""
         st.switch_page("pages/1_Coaching_Report.py")
 else:
     if not (resume_text.strip() or uploaded_file) and not job_description_text.strip():
