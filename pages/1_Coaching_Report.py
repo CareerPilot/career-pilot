@@ -1,6 +1,6 @@
 import streamlit as st
 
-from helpers import get_replicate_llm
+from helpers import is_local, get_llama_llm, get_replicate_llm
 
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
@@ -21,7 +21,7 @@ elif not st.session_state.get("resume_text") or not st.session_state.get(
         st.switch_page("Home.py")
 else:
     # Initialize the LLM
-    replicate_llm = get_replicate_llm()
+    llm = get_replicate_llm() if is_local() else get_llama_llm()
 
     prompt = f"""Please analyze the following resume and job description and generate a comprehensive coaching report on how well the resume matches the job description.
     Start by giving a matching score out of 10.
@@ -36,7 +36,7 @@ else:
             "Generating your coaching report... Please wait."
         )  # Display temporary text
         try:
-            response = replicate_llm.invoke(
+            response = llm.invoke(
                 prompt
             )  # Directly call the model with the prompt
             st.session_state.coaching_report = (

@@ -1,9 +1,13 @@
 import itertools as it
 from typing import Any
-
+import os
 import docx
 from langchain_community.llms import Replicate
 from pypdf import PdfReader
+
+
+def is_local() -> bool:
+    return os.environ['PROMPT'] or os.environ['PS1']
 
 
 def doc_to_text(doc_file_path: str) -> str:
@@ -34,3 +38,7 @@ def get_replicate_llm() -> Any:
         model="meta/meta-llama-3-8b-instruct",
         model_kwargs={"temperature": 0.75, "max_length": 1000, "top_p": 1},
     )
+
+
+def get_llama_llm() -> Any:
+    raise ValueError('not implemented')
