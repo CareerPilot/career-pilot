@@ -7,7 +7,7 @@ from pypdf import PdfReader
 
 
 def is_local() -> bool:
-    return os.environ['PROMPT'] or os.environ['PS1']
+    return os.environ.get('PROMPT') or os.environ.get('PS1')
 
 
 def doc_to_text(doc_file_path: str) -> str:
