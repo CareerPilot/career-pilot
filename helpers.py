@@ -1,7 +1,12 @@
 import itertools as it
-from typing import Any
+import json
 import os
+from typing import Any
+
+import boto3
 import docx
+from langchain.llms.sagemaker_endpoint import (LLMContentHandler,
+                                               SagemakerEndpoint)
 from langchain_community.llms import Replicate
 from pypdf import PdfReader
 
@@ -41,4 +46,33 @@ def get_replicate_llm() -> Any:
 
 
 def get_llama_llm() -> Any:
-    raise ValueError('not implemented')
+    class ContentHandler(LLMContentHandler):
+        content_type = "application/json"
+        accepts = "application/json"
+
+        def transform_input(self, prompt: str, model_kwargs: dict) -> bytes:
+            input_str = json.dumps({"inputs": prompt, "parameters": model_kwargs})
+            return input_str.encode("utf-8")
+
+        def transform_output(self, output: bytes) -> str:
+            response_json = json.loads(output.read().decode("utf-8"))
+            return response_json[0]["generated_text"]
+
+    client = boto3.client("sagemaker-runtime", region_name="us-west-2")
+    content_handler = ContentHandler()
+    return SagemakerEndpoint(
+        endpoint_name="llama-7b-chat-endpoint",
+        client=client,
+        content_handler=content_handler,
+        model_kwargs={"max_new_tokens": 700, "top_p": 0.9, "temperature": 0.6},
+        endpoint_kwargs={
+            "InferenceComponentName": "jumpstart-dft-meta-textgeneration-l-20240509-19-20240509-190922"
+        },
+    )
+
+
+def get_llm() -> Any:
+    if is_local():
+        return get_replicate_llm()
+    else:
+        return get_llama_llm()

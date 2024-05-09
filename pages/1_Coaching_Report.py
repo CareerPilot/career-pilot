@@ -1,6 +1,6 @@
 import streamlit as st
 
-from helpers import is_local, get_llama_llm, get_replicate_llm
+from helpers import get_llm  # Importing only the unified LLM getter function
 
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
@@ -20,11 +20,10 @@ elif not st.session_state.get("resume_text") or not st.session_state.get(
     if st.button("Go Home", type="primary"):
         st.switch_page("Home.py")
 else:
-    # Initialize the LLM
-    llm = get_replicate_llm() if is_local() else get_llama_llm()
+    llm = get_llm()  # Unified function to get the correct LLM instance
 
     prompt = f"""Please analyze the following resume and job description and generate a comprehensive coaching report on how well the resume matches the job description.
-    Start by giving a matching score out of 10.
+    Start by giving a matching score out of 10. Please keep your response short.
     Here is the resume: {st.session_state.resume_text}.
     And here is the job description: {st.session_state.job_description_text}"""
 
@@ -32,13 +31,9 @@ else:
         st.write(st.session_state.coaching_report)
     else:
         placeholder = st.empty()  # Create a placeholder for the report
-        placeholder.text(
-            "Generating your coaching report... Please wait."
-        )  # Display temporary text
+        placeholder.text("Generating your coaching report... Please wait.")
         try:
-            response = llm.invoke(
-                prompt
-            )  # Directly call the model with the prompt
+            response = llm.invoke(prompt)  # Directly call the model with the prompt
             st.session_state.coaching_report = (
                 response  # Save the response in session state
             )

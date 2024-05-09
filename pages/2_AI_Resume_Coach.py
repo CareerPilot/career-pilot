@@ -2,7 +2,7 @@ import streamlit as st
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
 
-from helpers import get_replicate_llm
+from helpers import get_llm
 
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
@@ -24,19 +24,12 @@ if not st.session_state.get("resume_text") or not st.session_state.get(
 else:
     # Initialize the conversation chain and memory if not already done
     if "conversation_chain" not in st.session_state:
-        replicate_llm = get_replicate_llm()
+        llm = get_llm()
         memory = ConversationBufferMemory()
-        st.session_state.conversation_chain = ConversationChain(
-            llm=replicate_llm,
-            memory=memory,
-        )
-
-    # Create a list for storing messages if it doesn't exist
-    if "messages" not in st.session_state:
+        st.session_state.conversation_chain = ConversationChain(llm=llm, memory=memory)
         st.session_state.messages = []
 
-    if not st.session_state.get("initial_message_sent", False):
-        # Initial message to provide context to the LLAMA model
+    if "initial_message_sent" not in st.session_state:
         initial_message = f"""
         You are an AI Resume Coach that helps job seekers tailor their resumes for specific job descriptions.
         You are talking to a user with the following resume, job description, AI-generated coaching report:
@@ -44,13 +37,11 @@ else:
         Job Description: {st.session_state.get("job_description_text")}
         Coaching Report: {st.session_state.get("coaching_report")}
         """
-        st.session_state.messages.append({"role": "system", "content": initial_message})
-        st.session_state["initial_message_sent"] = True
-
-        # Save the initial message in memory
         st.session_state.conversation_chain.invoke(input=initial_message)
+        st.session_state["initial_message_sent"] = True
+        st.session_state.messages.append({"role": "system", "content": initial_message})
 
-    # Display the chat messages
+    # Display chat messages
     for message in st.session_state.messages:
         if message["role"] == "system":
             continue  # Skip displaying the initial prompt
@@ -66,13 +57,14 @@ else:
             response = st.session_state.conversation_chain.invoke(input=prompt)
             # Parse the response to display only the AI's response part
             ai_response = (
-                response.get("response") if isinstance(response, dict) else response
+                response
+                if isinstance(response, str)
+                else response.get("response", "No response generated.")
             )
             st.session_state.messages.append(
                 {"role": "assistant", "content": ai_response}
             )
         except Exception as e:
-            # Handle exceptions from the AI model
             response = f"Failed to generate a response: {str(e)}"
             st.session_state.messages.append({"role": "assistant", "content": response})
 
