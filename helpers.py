@@ -1,3 +1,8 @@
+"""
+This is a utility module containing functions to convert document types and
+load the LLM.
+"""
+
 import itertools as it
 from typing import Any
 
@@ -7,6 +12,7 @@ from pypdf import PdfReader
 
 
 def doc_to_text(doc_file_path: str) -> str:
+    """Convert a DOCX file into text."""
     def item_to_text(tp) -> str:
         if type(tp) == docx.text.paragraph.Paragraph:
             text = tp.text
@@ -24,12 +30,14 @@ def doc_to_text(doc_file_path: str) -> str:
 
 
 def pdf_to_text(pdf_file_path: str) -> str:
+    """Convert a PDF file into text."""
     reader = PdfReader(pdf_file_path)
     text = "\n".join(page.extract_text() for page in reader.pages)
     return text
 
 
 def get_replicate_llm() -> Any:
+    """Create and return a Llama 3 model using Replicate."""
     return Replicate(
         model="meta/meta-llama-3-8b-instruct",
         model_kwargs={"temperature": 0.75, "max_length": 1000, "top_p": 1},
