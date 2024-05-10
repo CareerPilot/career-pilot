@@ -72,3 +72,35 @@ Fine-tuning the Large Language Model used in this application can be achieved wi
 The last step involves adapting the pre-trained model to specific tasks by updating parameters on a new dataset.  There are two
 ways to customize the model with fine-tuning, either supervised learning or reinforcement learning from human feedback (RLHF).
 Both have their advantages and disadvantages, such as differing amounts of human effort required versus quality of training.
+
+## Screenshots
+
+<figure>
+	<img src="images/Screen 1.png">
+	<figcaption>This is the initial view of the application</figcaption>
+</figure>
+
+<figure>
+	<img src="images/Screen 2.png">
+	<figcaption>This is the view of the application after uploading a document and providing the job description</figcaption>
+</figure>
+
+<figure>
+	<img src="images/Screen 3.png">
+	<figcaption>This is the view of the application waiting for the result after clicking "View Coaching Report"</figcaption>
+</figure>
+
+<figure>
+	<img src="images/Screen 4.png">
+	<figcaption>This is the view of the application after the LLM provides its response</figcaption>
+</figure>
+
+<figure>
+	<img src="images/Screen 5.png">
+	<figcaption>This is the view of the Resume Coach section of the application with a question</figcaption>
+</figure>
+
+<figure>
+	<img src="images/Screen 6.png">
+	<figcaption>This is the view of the Resume Coach section of the application with a response to the question</figcaption>
+</figure>
