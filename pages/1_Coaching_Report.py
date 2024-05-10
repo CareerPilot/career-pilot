@@ -1,6 +1,6 @@
 import streamlit as st
 
-from helpers import get_llama_llm, get_replicate_llm, is_local
+from helpers import get_replicate_llm
 
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
@@ -21,7 +21,7 @@ elif not st.session_state.get("resume_text") or not st.session_state.get(
         st.switch_page("Home.py")
 else:
     # Initialize the LLM
-    llm = get_replicate_llm() if is_local() else get_llama_llm()
+    llm = get_replicate_llm()
 
     prompt = f"""
         Please analyze the following resume and job description to generate a comprehensive coaching report. Assess how well the resume aligns with the job requirements specified in the job description. Provide a detailed analysis including:
