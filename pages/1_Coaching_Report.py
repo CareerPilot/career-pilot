@@ -1,11 +1,17 @@
+"""
+This is the coaching report module.  It invokes the LLM and displays the
+coaching report based on the resume and job description.
+"""
+
 import streamlit as st
 
 from helpers import get_replicate_llm
 
+# Display the header.
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
 st.divider()
-st.markdown("<h3>Coaching Report</h3>", unsafe_allow_html=True)
+st.markdown("### Coaching Report")
 st.caption("Get insights on how well your resume matches the job description.")
 
 # Display an error if there is one
@@ -51,6 +57,7 @@ else:
         except Exception as e:
             st.error(f"Failed to generate a coaching report: {str(e)}")
 
+    # Show the resume coach page if the user has a coaching report and wants to chat.
     if st.session_state.get("coaching_report"):
         if st.button("Chat with AI Resume Coach", type="primary"):
             st.switch_page("pages/2_AI_Resume_Coach.py")

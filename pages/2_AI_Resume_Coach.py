@@ -1,13 +1,20 @@
+"""
+This is the resume coach module.  It accepts user input and invokes the LLM to
+allow the user to improve their resume by chatting with the LLM.  The coaching
+report is included in the chat state.
+"""
+
 import streamlit as st
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
 
 from helpers import get_replicate_llm
 
+# Display the header.
 st.title("CareerPilot")
 st.caption("Where your career takes flight")
 st.divider()
-st.markdown("<h3>AI Resume Coach</h3>", unsafe_allow_html=True)
+st.markdown("### AI Resume Coach")
 st.caption("Ask away! Our AI coach is here to help tailor your resume for the job.")
 
 # Display an error if there is one
@@ -16,6 +23,8 @@ if "error" in st.session_state:
 if not st.session_state.get("resume_text") or not st.session_state.get(
     "job_description_text"
 ):
+    # If the user is here without a resume and job description, direct them to
+    # the home page.
     st.warning(
         "Submit resume and job description on home page to access AI Resume Coach."
     )
