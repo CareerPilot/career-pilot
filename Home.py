@@ -16,7 +16,7 @@ with st.container():
         "Resume:", value=str(st.session_state.get("resume_text", ""))
     )
     uploaded_file = st.file_uploader(
-        "Upload DOC, DOCX, PDF, or TXT", type=["doc", "docx", "pdf", "txt"]
+        "Upload DOCX, PDF, or TXT", type=["docx", "pdf", "txt"]
     )
 
     # Display a message if both resume text and uploaded file are provided
@@ -42,7 +42,7 @@ if (resume_text.strip() or uploaded_file) and job_description_text.strip():
                 name = uploaded_file.name.lower()
                 if name.endswith("pdf"):
                     st.session_state.resume_text = pdf_to_text(uploaded_file)
-                elif name.endswith("doc") or name.endswith("docx"):
+                elif name.endswith("docx"):
                     st.session_state.resume_text = doc_to_text(uploaded_file)
                 else:
                     st.session_state.resume_text = StringIO(
