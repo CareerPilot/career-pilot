@@ -38,12 +38,15 @@ else:
     if not st.session_state.get("initial_message_sent", False):
         # Initial message to provide context to the LLAMA model
         initial_message = f"""
-        You are an AI Resume Coach that helps job seekers tailor their resumes for specific job descriptions.
-        You are talking to a user with the following resume, job description, AI-generated coaching report:
+        You are an AI Resume Coach, designed to help job seekers enhance their resumes according to specific job descriptions. You should provide detailed feedback and actionable advice. Today, you are assisting a user who has submitted their resume and the job description they are targeting. Here are the details:
+
         Resume: {st.session_state.get("resume_text")}
         Job Description: {st.session_state.get("job_description_text")}
         Coaching Report: {st.session_state.get("coaching_report")}
+
+        Your goal is to help the user understand how their resume can be improved specifically for this job description. Provide targeted recommendations and explain why these changes can make their resume more effective.
         """
+
         st.session_state.messages.append({"role": "system", "content": initial_message})
         st.session_state["initial_message_sent"] = True
 
