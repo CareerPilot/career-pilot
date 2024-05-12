@@ -47,13 +47,22 @@ else:
     if not st.session_state.get("initial_message_sent", False):
         # Initial message to provide context to the LLAMA model
         initial_message = f"""
-        You are an AI Resume Coach, designed to help job seekers enhance their resumes according to specific job descriptions. You should provide detailed feedback and actionable advice. Today, you are assisting a user who has submitted their resume and the job description they are targeting. Here are the details:
+        --- BEGIN INSTRUCTION ---
+        As an AI Resume Coach, your role is to assist job applicants in refining their resumes for specific job descriptions.
+        You MUST provide detailed, actionable feedback based on the provided input data. Your task is to ensure your advice is specific and actionable.
+        Failure to provide targeted and accurate advice as required will be penalized. Remember to answer any questions given in a natural, human-like manner. Your role requires you to be precise and helpful.
+        --- END INSTRUCTION ---
 
+        --- BEGIN EXAMPLE INTERACTION ---
+        Applicant Question: "How can I make my resume stand out for a project management role?"
+        AI Response: "To enhance your resume for a project management role, focus on adding quantifiable achievements in your past projects. For instance, mention the budget you managed or the percentage completion of the projects under your leadership. Ensure your response is detailed and practical."
+        --- END EXAMPLE INTERACTION ---
+
+        --- BEGIN INPUT DATA ---
         Resume: {st.session_state.get("resume_text")}
         Job Description: {st.session_state.get("job_description_text")}
         Coaching Report: {st.session_state.get("coaching_report")}
-
-        Your goal is to help the user understand how their resume can be improved specifically for this job description. Provide targeted recommendations and explain why these changes can make their resume more effective.
+        --- END INPUT DATA ---
         """
 
         st.session_state.messages.append({"role": "system", "content": initial_message})

@@ -30,15 +30,31 @@ else:
     llm = get_replicate_llm()
 
     prompt = f"""
-        Please analyze the following resume and job description to generate a comprehensive coaching report. Assess how well the resume aligns with the job requirements specified in the job description. Provide a detailed analysis including:
-        1. A matching score out of 10, indicating overall alignment.
-        2. Key strengths of the resume in relation to the job description.
-        3. Areas for improvement or elements that are missing in the resume.
-        4. Specific recommendations on how to tailor the resume to better match the job description.
+    --- BEGIN INSTRUCTION ---
+    Your task as a Resume Analysis Expert is to analyze the resume and job description provided below and generate a comprehensive coaching report tailored for a job applicant aiming to enhance their resume for a specific job opening.
+    You MUST follow these steps in your evaluation, and failure to adhere to these steps will be penalized:
+    1. **Alignment Score**: Provide a matching score out of 10, indicating the resume's alignment with the job requirements. Ensure the alignment score reflects the applicant’s fit.
+    2. **Key Strengths**: Identify strengths of the resume that directly relate to the job description. Highlight these strengths clearly.
+    3. **Improvement Areas**: Point out missing elements or areas for improvement that are crucial for securing an interview. Focus on critical improvement areas.
+    4. **Recommendations**: Give specific recommendations on how to adjust the resume to better match the job description. Detail these recommendations thoroughly.
+    Your task is to ensure that each section of your report is clear and thorough.
+    --- END INSTRUCTION ---
 
-        Resume: {st.session_state.resume_text}
-        Job Description: {st.session_state.job_description_text}
-        """
+    --- BEGIN EXAMPLE ---
+    - Matching Score: 7/10
+    - Key Strengths: Well-structured experience section, strong leadership keywords.
+    - Improvement Areas: Lack of quantifiable achievements, missing skills related to project management.
+    - Recommendations: Add specific outcomes to your projects to showcase impact, include a 'Skills' section with relevant project management tools.
+    --- END EXAMPLE ---
+
+    --- BEGIN INPUT DATA ---
+    Resume: {st.session_state.resume_text}
+    Job Description: {st.session_state.job_description_text}
+    --- END INPUT DATA ---
+    --- BEGIN OUTPUT PRIMER ---
+    Matching Score:
+    --- END OUTPUT PRIMER ---
+    """
 
     if st.session_state.get("coaching_report", ""):
         st.write(st.session_state.coaching_report)

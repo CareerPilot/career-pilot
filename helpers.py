@@ -13,6 +13,7 @@ from pypdf import PdfReader
 
 def doc_to_text(doc_file_path: str) -> str:
     """Convert a DOCX file into text."""
+
     def item_to_text(tp) -> str:
         if type(tp) == docx.text.paragraph.Paragraph:
             text = tp.text
