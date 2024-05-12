@@ -45,7 +45,9 @@ development Web framework in Python.  It allowed us to quickly construct the Web
 data from the user to give to the LLM, and display the results of the LLM with an additional chat interface.
 
 All code is in Python.  There are supporting packages to parse PDF and DOCX files as a convenience for the user.  We used the
-Replicate package to access the LLM since it provides a convenient interface without requiring manual deployment of the LLM.
+Replicate package to access the LLM since it provides a convenient interface without requiring manual deployment of the LLM.  We
+were unable to deploy the IK-specified Llama-2 LLM due to configuration problems.  However, we believe using the Replicate service
+provides a better experience since it has access to the Llama-3 LLM.
 
 ## Deployment
 
